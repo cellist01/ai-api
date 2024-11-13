@@ -2,31 +2,35 @@ import streamlit as st
 import requests
 from datetime import datetime
 
-def init_session_state():
-    # 세션 상태 명시적 초기화
-    if not hasattr(st.session_state, 'messages'):
-        st.session_state.messages = []
+# 세션 상태 초기화를 가장 먼저, 다른 st 명령어보다 앞에 배치
+if "messages" not in st.session_state:
+    st.session_state["messages"] = []    # 대괄호 표기법 사용
 
 def main():
     st.title("AI 챗봇")
 
-    # 초기화 호출
-    init_session_state()
-
     # 채팅 이력 표시
-    if hasattr(st.session_state, 'messages'):
-        for msg in st.session_state.messages:
-            with st.chat_message(msg["role"]):
-                st.write(msg["content"])
+    for msg in st.session_state["messages"]:    # 대괄호 표기법 사용
+        with st.chat_message(msg["role"]):
+            st.write(msg["content"])
 
-    # 사용자 입력
-    if prompt := st.chat_input("메시지를 입력하세요..."):
-        # 사용자 메시지 저장
-        st.session_state.messages.append({"role": "user", "content": prompt})
+    # 사용자 입력 처리
+    if user_input := st.chat_input("메시지를 입력하세요..."):
+        # 사용자 메시지 추가
+        st.session_state["messages"].append({    # 대괄호 표기법 사용
+            "role": "user",
+            "content": user_input,
+            "time": datetime.now().strftime("%H:%M")
+        })
 
         # AI 응답 생성
-        response = call_llm_api(prompt)
-        st.session_state.messages.append({"role": "assistant", "content": response})
+        with st.spinner("응답 생성 중..."):
+            ai_response = call_llm_api(user_input)
+            st.session_state["messages"].append({    # 대괄호 표기법 사용
+                "role": "assistant",
+                "content": ai_response,
+                "time": datetime.now().strftime("%H:%M")
+            })
         st.rerun()
 
 def call_llm_api(prompt):
