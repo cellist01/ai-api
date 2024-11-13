@@ -53,8 +53,11 @@ def call_llm_api(prompt):
             json={
                 "model": "model",
                 "prompt": prompt,
-                "max_tokens": 512,
-                "temperature": 0.7,
+                "max_tokens": 100,
+                "temperature": 0.1,
+                "top_p": 0.95,
+                "presence_penalty": 0.0,
+                "frequency_penalty": 0.0,
             },
             verify=False,
             timeout=API_TIMEOUT
