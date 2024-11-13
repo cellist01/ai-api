@@ -28,7 +28,7 @@ if prompt := st.chat_input("메시지를 입력하세요..."):
     # AI 응답
     try:
         response = requests.post(
-            "https://model.odyssey-ai.svc.cluster.local/v1/completions",
+            "https://model.odyssey-ai.svc.cluster.local/v1/chat/completions",
             json={
                 "model": "model",
                 "prompt": prompt,
