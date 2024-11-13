@@ -15,7 +15,7 @@ st.set_page_config(
 # 상수 정의
 MAX_MESSAGES = 50
 API_TIMEOUT = 30
-API_URL = "https://model.odyssey-ai.svc.cluster.local:443/v1/chat/completions"
+API_URL = "https://model.odyssey-ai.svc.cluster.local:443/v1/completions"
 
 # 스타일 설정
 st.markdown("""
