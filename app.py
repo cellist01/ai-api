@@ -53,11 +53,13 @@ def call_llm_api(prompt):
             json={
                 "model": "model",
                 "prompt": prompt,
-                "max_tokens": 100,
-                "temperature": 0.1,
-                "top_p": 0.95,
-                "presence_penalty": 0.0,
-                "frequency_penalty": 0.0,
+                "max_tokens": 256,        # 충분한 컨텍스트 제공
+                "temperature": 0.3,       # 낮은 무작위성으로 일관된 응답
+                "top_p": 0.9,            # 높은 확률의 토큰만 선택
+                "presence_penalty": 0.1,  # 약간의 새로운 정보 추가
+                "frequency_penalty": 0.3, # 단어 반복 감소
+                "stop": ["\n\n"],        # 명확한 응답 구분
+                "n": 1,
             },
             verify=False,
             timeout=API_TIMEOUT
